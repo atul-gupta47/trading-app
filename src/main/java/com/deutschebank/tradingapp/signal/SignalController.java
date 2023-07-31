@@ -13,7 +13,7 @@ public class SignalController {
 
 	private SignalService signalService;
 
-	//TODO: revisit the api requirement and make necessary changes
+	// TODO: revisit the api requirement and make necessary changes
 	@PostMapping("/process_signal")
 	public ResponseEntity<String> processSignal(@RequestBody int signal) {
 		try {
