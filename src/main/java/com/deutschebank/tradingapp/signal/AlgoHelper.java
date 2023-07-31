@@ -1,6 +1,10 @@
 package com.deutschebank.tradingapp.signal;
 
 import com.deutschebank.tradingalgo.Algo;
+import com.deutschebank.tradingapp.signal_processing.*;
+import com.deutschebank.tradingapp.signal_processing.strategies.Signal1Strategy;
+import com.deutschebank.tradingapp.signal_processing.strategies.Signal2Strategy;
+import com.deutschebank.tradingapp.signal_processing.strategies.Signal3Strategy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,26 +17,22 @@ public class AlgoHelper {
 	}
 
 	public void processSignal(int signal) {
+		SignalStrategy strategy;
 		switch (signal) {
 			case 1 -> {
-				algo.setUp();
-				algo.setAlgoParam(1, 60);
-				algo.performCalc();
-				algo.submitToMarket();
+				strategy = new Signal1Strategy();
 			}
 			case 2 -> {
-				algo.reverse();
-				algo.setAlgoParam(1, 80);
-				algo.submitToMarket();
+				strategy = new Signal2Strategy();
 			}
 			case 3 -> {
-				algo.setAlgoParam(1, 90);
-				algo.setAlgoParam(2, 15);
-				algo.performCalc();
-				algo.submitToMarket();
+				strategy = new Signal3Strategy();
 			}
-			default -> algo.cancelTrades();
+			default -> {
+				strategy = new SignalStrategyDefault();
+			}
 		}
+		strategy.process(algo);
 		algo.doAlgo();
 	}
 
