@@ -1,37 +1,68 @@
 package com.deutschebank.tradingapp.signal;
 
 import com.deutschebank.tradingalgo.Algo;
-import com.deutschebank.tradingapp.signal_processing.*;
-import com.deutschebank.tradingapp.signal_processing.strategies.Signal1Strategy;
-import com.deutschebank.tradingapp.signal_processing.strategies.Signal2Strategy;
-import com.deutschebank.tradingapp.signal_processing.strategies.Signal3Strategy;
-import org.springframework.stereotype.Service;
+import com.deutschebank.tradingapp.signal_processing.SignalConfig;
+import com.deutschebank.tradingapp.signal_processing.SignalStrategy;
+import com.deutschebank.tradingapp.signal_processing.SignalStrategyDefault;
+import com.deutschebank.tradingapp.signal_processing.SignalsConfig;
+import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
-@Service
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Map;
+
+@Component
+@AllArgsConstructor
 public class AlgoHelper {
 
 	private final Algo algo;
 
-	public AlgoHelper() {
-		this.algo = new Algo();
+	private final ResourceLoader resourceLoader;
+
+	private final Map<Integer, SignalStrategy> signalStrategies;
+
+	private void initializeSignalStrategies() {
+		// Read the configuration file and populate the signalStrategies map
+		if (signalStrategies != null) {
+			return;
+		}
+		try {
+			Resource resource = resourceLoader.getResource("classpath:signals.json");
+			try (Reader reader = new InputStreamReader(resource.getInputStream())) {
+				Gson gson = new Gson();
+				SignalsConfig signalsConfig = gson.fromJson(reader, SignalsConfig.class);
+				for (SignalConfig signalConfig : signalsConfig.getSignals()) {
+					var signalStrategy = createStrategyInstance(signalConfig.getAlgorithm());
+					if (signalStrategy != null) {
+						signalStrategies.put(signalConfig.getSignalId(), signalStrategy);
+					}
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private SignalStrategy createStrategyInstance(String configClassName) {
+		try {
+			Class<?> clazz = Class
+					.forName("com.deutschebank.tradingapp.signal_processing.strategies." + configClassName);
+			return (SignalStrategy) clazz.getDeclaredConstructor().newInstance();
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void processSignal(int signal) {
-		SignalStrategy strategy;
-		switch (signal) {
-			case 1 -> {
-				strategy = new Signal1Strategy();
-			}
-			case 2 -> {
-				strategy = new Signal2Strategy();
-			}
-			case 3 -> {
-				strategy = new Signal3Strategy();
-			}
-			default -> {
-				strategy = new SignalStrategyDefault();
-			}
-		}
+		initializeSignalStrategies();
+		SignalStrategy strategy = signalStrategies.getOrDefault(signal, new SignalStrategyDefault());
 		strategy.process(algo);
 		algo.doAlgo();
 	}

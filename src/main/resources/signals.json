@@ -1,0 +1,16 @@
+{
+  "signals": [
+    {
+      "signalId": 1,
+      "algorithm": "Signal1Strategy"
+    },
+    {
+      "signalId": 2,
+      "algorithm": "Signal2Strategy"
+    },
+    {
+      "signalId": 3,
+      "algorithm": "Signal3Strategy"
+    }
+  ]
+}

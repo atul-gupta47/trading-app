@@ -1,4 +1,4 @@
-package com.deutschebank.tradingapp;
+package com.deutschebank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
