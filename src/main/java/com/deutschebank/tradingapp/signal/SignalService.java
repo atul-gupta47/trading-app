@@ -9,9 +9,8 @@ public class SignalService {
 
 	private AlgoHelper algoHelper;
 
-	public String processSignal(int signal) {
+	public void processSignal(int signal) {
 		algoHelper.processSignal(signal);
-		return null;
 	}
 
 }
