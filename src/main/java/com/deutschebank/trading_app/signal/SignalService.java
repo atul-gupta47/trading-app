@@ -14,6 +14,7 @@ public class SignalService {
 	private SignalUtilityService signalUtilityService;
 
 	public void processSignal(int signalId) {
+		signalUtilityService.initializeSignalStrategies();
 		var strategy = signalUtilityService.getSignalStrategyBySignalId(signalId);
 		strategy.process(algo); // Process the strategy using the provided Algo
 		algo.doAlgo(); // Perform the Algo action

@@ -7,7 +7,7 @@ import com.deutschebank.trading_app.signal_utils.SignalStrategy;
  * Default implementation of the {@link SignalStrategy} interface. This strategy cancels
  * trades using the provided {@link Algo} instance.
  */
-public class SignalStrategyDefault implements SignalStrategy {
+public class Signal_Default implements SignalStrategy {
 
 	/**
 	 * Process the signal using the given {@link Algo} instance.

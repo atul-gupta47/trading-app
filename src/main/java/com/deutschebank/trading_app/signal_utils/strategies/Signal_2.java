@@ -3,7 +3,7 @@ package com.deutschebank.trading_app.signal_utils.strategies;
 import com.deutschebank.trading_algo.Algo;
 import com.deutschebank.trading_app.signal_utils.SignalStrategy;
 
-public class Signal2Strategy implements SignalStrategy {
+public class Signal_2 implements SignalStrategy {
 
 	@Override
 	public void process(Algo algo) {
