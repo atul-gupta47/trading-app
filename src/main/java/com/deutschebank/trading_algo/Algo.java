@@ -1,4 +1,4 @@
-package com.deutschebank.tradingalgo;
+package com.deutschebank.trading_algo;
 
 /**
  * This is implemented in a third-party library and we cannot change it. The println calls

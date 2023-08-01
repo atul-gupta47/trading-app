@@ -1,7 +1,7 @@
-package com.deutschebank.tradingapp.signal_processing.strategies;
+package com.deutschebank.trading_app.signal_utils.strategies;
 
-import com.deutschebank.tradingalgo.Algo;
-import com.deutschebank.tradingapp.signal_processing.SignalStrategy;
+import com.deutschebank.trading_algo.Algo;
+import com.deutschebank.trading_app.signal_utils.SignalStrategy;
 
 public class Signal1Strategy implements SignalStrategy {
 

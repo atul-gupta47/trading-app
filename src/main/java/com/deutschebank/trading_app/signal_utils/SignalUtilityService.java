@@ -1,31 +1,27 @@
-package com.deutschebank.tradingapp.signal;
+package com.deutschebank.trading_app.signal_utils;
 
-import com.deutschebank.tradingalgo.Algo;
-import com.deutschebank.tradingapp.signal_processing.SignalConfig;
-import com.deutschebank.tradingapp.signal_processing.SignalStrategy;
-import com.deutschebank.tradingapp.signal_processing.SignalStrategyDefault;
-import com.deutschebank.tradingapp.signal_processing.SignalsConfig;
+import com.deutschebank.trading_app.signal_utils.strategies.SignalStrategyDefault;
 import com.google.gson.Gson;
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Map;
 
-@Component
+@Service
 @AllArgsConstructor
-public class AlgoHelper {
-
-	private final Algo algo;
+public class SignalUtilityService {
 
 	private final ResourceLoader resourceLoader;
 
 	private final Map<Integer, SignalStrategy> signalStrategies;
 
+	@PostConstruct
 	private void initializeSignalStrategies() {
 		// Read the configuration file and populate the signalStrategies map
 		if (signalStrategies != null) {
@@ -51,8 +47,7 @@ public class AlgoHelper {
 
 	private SignalStrategy createStrategyInstance(String configClassName) {
 		try {
-			Class<?> clazz = Class
-					.forName("com.deutschebank.tradingapp.signal_processing.strategies." + configClassName);
+			Class<?> clazz = Class.forName("com.deutschebank.tradingapp.signal_utils.strategies." + configClassName);
 			return (SignalStrategy) clazz.getDeclaredConstructor().newInstance();
 		}
 		catch (Exception e) {
@@ -60,11 +55,8 @@ public class AlgoHelper {
 		}
 	}
 
-	public void processSignal(int signal) {
-		initializeSignalStrategies();
-		SignalStrategy strategy = signalStrategies.getOrDefault(signal, new SignalStrategyDefault());
-		strategy.process(algo);
-		algo.doAlgo();
+	public SignalStrategy getSignalStrategyBySignalId(int signalId) {
+		return signalStrategies.getOrDefault(signalId, new SignalStrategyDefault());
 	}
 
 }

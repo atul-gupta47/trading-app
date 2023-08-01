@@ -1,4 +1,4 @@
-package com.deutschebank.tradingapp.signal;
+package com.deutschebank.trading_app.signal;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

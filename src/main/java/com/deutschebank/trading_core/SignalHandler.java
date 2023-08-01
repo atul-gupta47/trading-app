@@ -1,4 +1,4 @@
-package com.deutschebank.tradingcore;
+package com.deutschebank.trading_core;
 
 /**
  * This is a callback interface from our trading system, and we cannot change it. We want
