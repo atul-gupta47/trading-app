@@ -13,18 +13,30 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Map;
 
+/**
+ * Service class responsible for managing and providing signal strategies.
+ */
 @Service
 @AllArgsConstructor
 public class SignalUtilityService {
+
+	private static final String STRATEGY_CLASS_NAME_PREFIX = "com.deutschebank.tradingapp.signal_utils.strategies.";
+
+	private static final String STRATEGY_INSTANTIATION_ERROR_TEMPLATE = "Unable to instantiate Signal strategy class for signalId: %s";
 
 	private final ResourceLoader resourceLoader;
 
 	private final Map<Integer, SignalStrategy> signalStrategies;
 
+	/**
+	 * Initialize the signalStrategies map with SignalStrategy instances from the
+	 * signals.json configuration file. If the map is already initialized, this method
+	 * will return without re-initializing it.
+	 */
 	@PostConstruct
 	private void initializeSignalStrategies() {
-		// Read the configuration file and populate the signalStrategies map
-		if (signalStrategies != null) {
+		if (signalStrategies != null && !signalStrategies.isEmpty()) {
+			// If the map is already initialized, return (prevents re-initialization)
 			return;
 		}
 		try {
@@ -33,7 +45,7 @@ public class SignalUtilityService {
 				Gson gson = new Gson();
 				SignalsConfig signalsConfig = gson.fromJson(reader, SignalsConfig.class);
 				for (SignalConfig signalConfig : signalsConfig.getSignals()) {
-					var signalStrategy = createStrategyInstance(signalConfig.getAlgorithm());
+					SignalStrategy signalStrategy = createStrategyInstance(signalConfig.getAlgorithm());
 					if (signalStrategy != null) {
 						signalStrategies.put(signalConfig.getSignalId(), signalStrategy);
 					}
@@ -45,13 +57,21 @@ public class SignalUtilityService {
 		}
 	}
 
+	/**
+	 * Helper method to create an instance of a SignalStrategy based on the configuration
+	 * class name.
+	 * @param configClassName The fully qualified name of the SignalStrategy configuration
+	 * class.
+	 * @return An instance of SignalStrategy if successful, or throw exception if the instantiation
+	 * failed.
+	 */
 	private SignalStrategy createStrategyInstance(String configClassName) {
 		try {
-			Class<?> clazz = Class.forName("com.deutschebank.tradingapp.signal_utils.strategies." + configClassName);
+			Class<?> clazz = Class.forName(STRATEGY_CLASS_NAME_PREFIX + configClassName);
 			return (SignalStrategy) clazz.getDeclaredConstructor().newInstance();
 		}
 		catch (Exception e) {
-			return null;
+			throw new SignalStrategyException(String.format(STRATEGY_INSTANTIATION_ERROR_TEMPLATE, configClassName));
 		}
 	}
 
