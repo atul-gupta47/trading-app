@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class SignalUtilityService {
 
 	private static final String SIGNAL_STRATEGY_CLASS_NAME_SEPARATOR = "_";
 
-	private final Map<Integer, SignalStrategy> signalStrategies;
+	private Map<Integer, SignalStrategy> signalStrategies;
 
 	/**
 	 * Initialize the signalStrategies map with SignalStrategy instances from the
@@ -86,7 +87,7 @@ public class SignalUtilityService {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
 		// Get the package resource path
-		java.net.URL packageUrl = classLoader.getResource(packagePath);
+		URL packageUrl = classLoader.getResource(packagePath);
 		if (packageUrl != null) {
 			File packageDirectory = new File(packageUrl.getFile());
 			if (packageDirectory.isDirectory()) {
@@ -141,6 +142,10 @@ public class SignalUtilityService {
 
 	public SignalStrategy getSignalStrategyBySignalId(int signalId) {
 		return signalStrategies.getOrDefault(signalId, new Signal_Default());
+	}
+
+	public Map<Integer, SignalStrategy> getSignalStrategies() {
+		return signalStrategies;
 	}
 
 }

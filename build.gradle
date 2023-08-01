@@ -30,7 +30,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compileOnly "io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.34"
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	implementation 'com.google.code.gson:gson:2.7'
+}
+
+test {
+	useJUnitPlatform() // Use JUnit 5 platform for running tests
+	testLogging {
+		events 'passed', 'skipped', 'failed' // Show only passed, skipped, and failed test events in the console output
+	}
 }
 
 tasks.named('test') {
