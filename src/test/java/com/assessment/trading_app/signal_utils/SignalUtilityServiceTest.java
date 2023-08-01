@@ -1,9 +1,9 @@
-package com.deutschebank.trading_app.signal_utils;
+package com.assessment.trading_app.signal_utils;
 
-import com.deutschebank.trading_algo.Algo;
-import com.deutschebank.trading_app.signal.SignalService;
-import com.deutschebank.trading_app.signal_utils.strategies.Signal_1;
-import com.deutschebank.trading_app.signal_utils.strategies.Signal_Default;
+import com.assessment.trading_algo.Algo;
+import com.assessment.trading_app.signal.SignalService;
+import com.assessment.trading_app.signal_utils.strategies.Signal_1;
+import com.assessment.trading_app.signal_utils.strategies.Signal_Default;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
-package com.deutschebank;
+package com.assessment;
 
-import com.deutschebank.trading_algo.Algo;
+import com.assessment.trading_algo.Algo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

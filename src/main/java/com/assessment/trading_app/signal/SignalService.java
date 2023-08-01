@@ -1,7 +1,7 @@
-package com.deutschebank.trading_app.signal;
+package com.assessment.trading_app.signal;
 
-import com.deutschebank.trading_algo.Algo;
-import com.deutschebank.trading_app.signal_utils.SignalUtilityService;
+import com.assessment.trading_algo.Algo;
+import com.assessment.trading_app.signal_utils.SignalUtilityService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

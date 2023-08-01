@@ -1,6 +1,6 @@
-package com.deutschebank.trading_app.signal_utils;
+package com.assessment.trading_app.signal_utils;
 
-import com.deutschebank.trading_app.signal_utils.strategies.Signal_Default;
+import com.assessment.trading_app.signal_utils.strategies.Signal_Default;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SignalUtilityService {
 
-	private static final String STRATEGY_PACKAGE_NAME = "com.deutschebank.trading_app.signal_utils.strategies";
+	private static final String STRATEGY_PACKAGE_NAME = "com.assessment.trading_app.signal_utils.strategies";
 
 	private static final String DEFAULT_SIGNAL_STRATEGY_CLASS_NAME = STRATEGY_PACKAGE_NAME + ".Signal_Default";
 
