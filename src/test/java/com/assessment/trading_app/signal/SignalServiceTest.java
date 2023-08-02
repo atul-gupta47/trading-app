@@ -15,11 +15,11 @@ class SignalServiceTest {
 	@Mock
 	private Algo mockAlgo;
 
-	@Mock
-	private SignalUtilityService mockSignalUtilityService;
-
 	@InjectMocks
 	private SignalService signalService;
+
+	@Mock
+	private SignalUtilityService signalUtilityService;
 
 	@BeforeEach
 	void setUp() {
@@ -27,21 +27,21 @@ class SignalServiceTest {
 	}
 
 	@Test
-	void testProcessSignal() {
-		int signalId = 123; // Replace with the signalId you want to test
+	void test_processSignal_shouldWorks() {
+		int signalId = 123;
 
 		// Create a mock SignalStrategy
 		SignalStrategy mockStrategy = Mockito.mock(SignalStrategy.class);
 
 		// Mock the behavior of the SignalUtilityService
-		Mockito.when(mockSignalUtilityService.getSignalStrategyBySignalId(signalId)).thenReturn(mockStrategy);
+		Mockito.when(signalUtilityService.getSignalStrategyBySignalId(signalId)).thenReturn(mockStrategy);
 
 		// Call the method under test
 		signalService.processSignal(signalId);
 
 		// Verify that the SignalUtilityService methods were called as expected
-		Mockito.verify(mockSignalUtilityService).initializeSignalStrategies();
-		Mockito.verify(mockSignalUtilityService).getSignalStrategyBySignalId(signalId);
+		Mockito.verify(signalUtilityService).initializeSignalStrategies();
+		Mockito.verify(signalUtilityService).getSignalStrategyBySignalId(signalId);
 
 		// Verify that the Algo methods were called as expected
 		Mockito.verify(mockStrategy).process(mockAlgo);

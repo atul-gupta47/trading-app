@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Service class responsible for managing and providing signal strategies.
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SignalUtilityService {
 
-	private static final String STRATEGY_PACKAGE_NAME = "com.assessment.trading_app.signal_utils.strategies";
+	public static final String STRATEGY_PACKAGE_NAME = "com.assessment.trading_app.signal_utils.strategies";
 
 	private static final String DEFAULT_SIGNAL_STRATEGY_CLASS_NAME = STRATEGY_PACKAGE_NAME + ".Signal_Default";
 
@@ -79,7 +78,7 @@ public class SignalUtilityService {
 	 * @return A list of fully qualified class names for all strategy classes found in the
 	 * package.
 	 */
-	public static List<String> getAllStrategyClassNames(String packageName) {
+	public List<String> getAllStrategyClassNames(String packageName) {
 		List<String> classNames = new ArrayList<>();
 		String packagePath = packageName.replace('.', File.separatorChar);
 
@@ -132,7 +131,7 @@ public class SignalUtilityService {
 				log.debug("Invalid class name format: " + className);
 				return null;
 			}
-		}).filter(Objects::nonNull).collect(Collectors.toList());
+		}).filter(Objects::nonNull).toList();
 		return SignalsConfig.builder().signals(signals).build();
 	}
 
